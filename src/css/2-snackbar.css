@@ -1,0 +1,23 @@
+section{
+    margin: 40px;
+}
+
+form{
+    width: 350px;
+}
+
+.iziToast-close{
+    display: none;
+}
+
+fieldset{
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 20px 0;
+}
+
+.delay{
+    display: flex;
+    justify-content: space-between;
+}
