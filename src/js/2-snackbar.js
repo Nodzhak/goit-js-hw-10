@@ -18,6 +18,7 @@ form.addEventListener('submit', (arg) => {
             .then(result => console.log(result))
             .catch(error => console.error(error));
     }
+    form.reset();
 });
 
 const makePromise = ({ shouldResolve, delay }) => {

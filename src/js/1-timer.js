@@ -19,12 +19,16 @@ function convertMs(ms) {
   const hour = minute * 60;
   const day = hour * 24;
 
-  const days = Math.floor(ms / day);
-  const hours = Math.floor((ms % day) / hour);
-  const minutes = Math.floor(((ms % day) % hour) / minute);
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+  const days = addLeadingZero(Math.floor(ms / day));
+  const hours = addLeadingZero(Math.floor((ms % day) / hour));
+  const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
+  const seconds = addLeadingZero(Math.floor((((ms % day) % hour) % minute) / second));
 
   return { days, hours, minutes, seconds };
+}
+
+function addLeadingZero(value){
+  return value.toString().padStart(2, '0');;
 }
 
 const options = {
@@ -39,7 +43,6 @@ const options = {
         title: "Error",
         message: "Please choose a date in the future",
       });
-      selectedDates[0] = new Date();
     } else {
       links.button.disabled = false;
       selectedTime = selectedDates[0];
@@ -52,14 +55,16 @@ class Timer {
     this.timerID = null;
     this.isActive = false;
     links.button.disabled = true;
+    this.toggleButtonAndInput(false);
   }
 
   startTimer() {
     if (this.isActive) {
       return;
     }
-
+  
     this.isActive = true;
+    this.toggleButtonAndInput(true); 
     this.timerID = setInterval(() => {
       const currentTime = Date.now();
       const deltaTime = selectedTime - currentTime;
@@ -67,6 +72,8 @@ class Timer {
       this.updateComponentsTimer(componentsTimer);
       if (deltaTime <= 0) {
         this.stopTimer();
+        this.updateComponentsTimer({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        this.toggleButtonAndInput(false);
       }
     }, 1000);
   }
@@ -80,6 +87,11 @@ class Timer {
 
   stopTimer() {
     clearInterval(this.timerID);
+  }
+
+  toggleButtonAndInput(disabled) {
+    links.button.disabled = disabled;
+    links.date.disabled = disabled;
   }
 }
 
