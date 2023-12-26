@@ -1,6 +1,7 @@
 import flatpickr from 'flatpickr';
 import iziToast from 'izitoast';
 import 'flatpickr/dist/flatpickr.min.css';
+import "izitoast/dist/css/iziToast.min.css";
 
 let selectedTime = null;
 const links = {
@@ -44,7 +45,6 @@ const options = {
         message: "Please choose a date in the future",
       });
     } else {
-      links.button.disabled = false;
       selectedTime = selectedDates[0];
     }
   },
@@ -70,9 +70,8 @@ class Timer {
       const deltaTime = selectedTime - currentTime;
       const componentsTimer = convertMs(deltaTime);
       this.updateComponentsTimer(componentsTimer);
-      if (deltaTime <= 0) {
+      if (deltaTime <= 1000) {
         this.stopTimer();
-        this.updateComponentsTimer({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         this.toggleButtonAndInput(false);
       }
     }, 1000);
